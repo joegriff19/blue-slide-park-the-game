@@ -1,0 +1,9 @@
+{
+  "name": "blue-slide-park",
+  "version": "1.0.0",
+  "description": "Blue Slide Park - 3D slide game with global leaderboard",
+  "private": true,
+  "dependencies": {
+    "@netlify/blobs": "^7.0.0"
+  }
+}

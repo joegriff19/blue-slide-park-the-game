@@ -1,0 +1,17 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Make functions available at clean URLs like /api/leaderboard instead of /.netlify/functions/get-leaderboard
+[[redirects]]
+  from = "/api/leaderboard"
+  to = "/.netlify/functions/get-leaderboard"
+  status = 200
+
+[[redirects]]
+  from = "/api/submit"
+  to = "/.netlify/functions/submit-score"
+  status = 200
