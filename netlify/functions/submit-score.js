@@ -49,8 +49,27 @@ export default async (req, context) => {
       leaderboard = [];
     }
 
+    // Get geolocation from Netlify's context (based on user's IP)
+    const geo = context.geo || {};
+    const location = {
+      city: geo.city || null,
+      country: geo.country?.name || null,
+      countryCode: geo.country?.code || null,
+      region: geo.subdivision?.name || null,
+      timezone: geo.timezone || null
+    };
+
+    // Format date as YYYY-MM-DD (UTC)
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10);
+
     // Add new entry
-    const entry = { name, score, time: Date.now() };
+    const entry = {
+      name,
+      score,
+      date: dateStr,
+      location
+    };
     leaderboard.push(entry);
 
     // Sort by score descending, keep top 100
@@ -64,7 +83,7 @@ export default async (req, context) => {
 
     // Return the updated leaderboard and the rank of the new entry
     const rank = leaderboard.findIndex(
-      e => e.name === entry.name && e.score === entry.score && e.time === entry.time
+      e => e.name === entry.name && e.score === entry.score && e.date === entry.date
     );
 
     return new Response(JSON.stringify({
